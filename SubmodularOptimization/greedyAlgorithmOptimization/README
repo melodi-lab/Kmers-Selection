@@ -1,0 +1,25 @@
+# This code implements the accelerated greedy algorithm on the submodular function f(S) = \sum_{u\in U} g ( m_u(S) ), where g is a concave function, U is a set of feature units that we wish to cover, and m_u(S) is the score of the set S has for the unit u, note m_u(S) = \sum_{v\in S} m_u(v). 
+
+
+An example of running command:
+
+./submod_selection -graph ../../../2016-05-26hg19-windows/hg38.width=1000000.offset=1000000.k=3.txt.featureGraph -reference ../../../2016-05-26hg19-windows/hg38.width=1000000.offset=1000000.k=3.txt.region_list -n `less ../../../2016-05-26hg19-windows/hg38.width=1000000.offset=1000000.k=3.txt.region_list | wc -l` -per 100 -out ../../../hg38.width=1000000.offset=1000000.k=3.txt.ranked
+
+
+-graph: a file where each line corresponds to genome region. The line is the following format:
+"K-mers_id1 K-mers_count1 K-mers_id2 K-mers_count2 ... K-mers_idN K-mers_countN"
+The odd columns correspond to the index of the K-mers, and the even columns corresond to the count the K-mer specified by the previous column. To run data selection experiments, you need to preprocess the genome data to generate this file. In particular, you need to specify the indices of the K-mers and the count of the K-mers presented in each genome region. 
+
+-reference: a text file where each line specifies the name of the genome region. The order of the lines should correspond exactly to the graph. 
+
+-weight: a text file that specifies the K-mers specific weights. If the file is not speicified, the weights are by default set as uniform. 
+
+-cost: a file where each line specifies the cost for each genome region. The order of the lines are the same as in -graph. If the file is not specified, the cost is by default set as uniform across genome regions. 
+
+-n: the total number of genome regions in the data set
+
+-per: the percentage of data selection. To obtain the ranking of all genome regions, please specify this parameter as 100. 
+
+-out: the output file that contains the ranking of the genome regions according to this submodular function.
+
+-alpha: the exponential penalty on the cost, by default, it's set as 1.

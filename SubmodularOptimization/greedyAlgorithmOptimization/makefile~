@@ -1,0 +1,26 @@
+OBJS = submod_selection.o arguments.o error.o utils.o 
+CC = g++
+DEBUG = -g
+FAST = 
+CFLAGS = -Wall -c $(DEBUG)
+LFLAGS = -Wall $(DEBUG) $(FAST)
+
+submod_selection : $(OBJS)
+	$(CC) $(OBJS) $(LFLAGS) -o submod_selection
+
+arguments.o : arguments.cc arguments.h 
+	$(CC) $(CFLAGS) arguments.cc 
+
+error.o : error.cc error.h
+	$(CC) $(CFLAGS) error.cc
+
+utils.o : utils.cc utils.h
+	$(CC) $(CFLAGS) utils.cc
+
+submod_selection.o : submod_selection.cc arguments.h error.h
+	$(CC) $(CFLAGS) submod_selection.cc
+
+clean:
+	\rm *.o submod_selection
+
+
